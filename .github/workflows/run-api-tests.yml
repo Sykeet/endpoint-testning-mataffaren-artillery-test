@@ -37,7 +37,7 @@ jobs:
         run: nohup npm run backend &
 
       - name: Run Playwright test with Artillery
-        run: artillery run load-tests/basic.yml
+        run: artillery run e2e/test-1.spec.ts
 
       - name: Save load test report
         run: artillery run --output report.json load-tests/basic.yml
