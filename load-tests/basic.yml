@@ -1,17 +1,17 @@
 config:
   target: http://127.0.0.1:4001
   phases:
-    - duration: 10
+    - duration: 2
       arrivalRate: 1
-      rampTo: 5
+      rampTo: 2
       name: Warm up phase
-    - duration: 10
-      arrivalRate: 5
-      rampTo: 10
+    - duration: 2
+      arrivalRate: 2
+      rampTo: 4
       name: Ramp up load
-    - duration: 10
-      arrivalRate: 10
-      rampTo: 20
+    - duration: 2
+      arrivalRate: 4
+      rampTo: 8
       name: Spike phase
 
   plugins:

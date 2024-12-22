@@ -4,7 +4,7 @@ module.exports = {
   runPlaywrightTest,
 };
 
-async function runPlaywrightTest(context, events, done) {
+async function runPlaywrightTest(done) {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
