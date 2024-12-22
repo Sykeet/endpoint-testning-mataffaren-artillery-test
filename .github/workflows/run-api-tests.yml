@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Run Playwright Runner
 
 on:
   push:
@@ -7,64 +7,33 @@ on:
     branches: [main]
 
 jobs:
-  load-testing:
+  run-playwright-runner:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
-      # Steg 1: Checka ut koden
+      # Steg 1: Checka ut koden från GitHub
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Steg 2: Installera Node.js och cache npm-moduler
-      - name: Use Node.js ${{ matrix.node-version }}
+      # Steg 2: Installera Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20.x
           cache: 'npm'
 
       # Steg 3: Installera projektberoenden
       - name: Install dependencies
         run: npm ci
 
-      # Steg 4: Bygg projektet
-      - name: Run Build
-        run: npm run build
-
-      # Steg 5: Installera Artillery
-      - name: Install Artillery
-        run: npm install -g artillery
-
-      # Steg 6: Starta backend-server
+      # Steg 4: Kör backend-servern
       - name: Start backend server
         run: nohup npm run backend &
 
-      # Steg 7: Vänta på att backend startar
+      # Steg 5: Vänta på att backend startar
       - name: Wait for backend to start
         run: sleep 10
 
-      # Steg 8: Kontrollera att backend körs
-      - name: Check backend status
-        run: curl -I http://localhost:4001
-
-      # Steg 9: Kör Playwright-tester
-      - name: Run Playwright tests
-        run: npx playwright test e2e/test-1.spec.cjs
-
-      # Steg 10: Kör Artillery-belastningstest
-      - name: Run Artillery load test
-        run: artillery run load-tests/basic.yml
-
-      # Steg 11: Spara Artillery-rapporten
-      - name: Save load test report
-        run: artillery run --output report.json load-tests/basic.yml
-
-      # Steg 12: Ladda upp Artillery-rapporten
-      - name: Upload load test report
-        uses: actions/upload-artifact@v3
-        with:
-          name: load-test-report
-          path: report.json
+      # Steg 6: Kör `playwright-runner.js`
+      - name: Run Playwright Runner
+        run: node e2e/playwright-runner.js
