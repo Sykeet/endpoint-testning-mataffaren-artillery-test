@@ -77,6 +77,5 @@ async function runPlaywrightTest(done) {
     console.error("Error running Playwright test:", error);
   } finally {
     await browser.close();
-    done();
   }
 }
