@@ -8,10 +8,13 @@ async function runPlaywrightTest(context, events, done) {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
+  // Global timeout på 2 minuter
+  page.setDefaultTimeout(120000);
+
   try {
     console.log("Running Playwright test...");
 
-    // Din Playwright-testlogik
+    // Playwright-testlogik
     await page.goto("http://127.0.0.1:4001/kategori/frukt-och-gront");
     await page.getByRole("link", { name: "Kött, chark & fågel" }).click();
     await page.getByRole("heading", { name: "Prinskorv" }).click();
@@ -74,6 +77,6 @@ async function runPlaywrightTest(context, events, done) {
     console.error("Error running Playwright test:", error);
   } finally {
     await browser.close();
-    done(); // Meddela Artillery att funktionen är klar
+    done();
   }
 }
