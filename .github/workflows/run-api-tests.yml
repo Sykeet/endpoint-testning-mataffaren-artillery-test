@@ -52,15 +52,15 @@ jobs:
 
       # Steg 9: Kör Playwright-tester
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test e2e/test-1.spec.cjs
 
-      # Steg 10: Kör Artillery-tester
+      # Steg 10: Kör Artillery-belastningstest
       - name: Run Artillery load test
-        run: artillery run e2e/test-1.spec.cjs
+        run: artillery run load-tests/basic.yml
 
       # Steg 11: Spara Artillery-rapporten
       - name: Save load test report
-        run: artillery run --output report.json e2e/test-1.spec.cjs
+        run: artillery run --output report.json load-tests/basic.yml
 
       # Steg 12: Ladda upp Artillery-rapporten
       - name: Upload load test report
