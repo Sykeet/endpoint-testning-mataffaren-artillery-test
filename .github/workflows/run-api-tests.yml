@@ -32,7 +32,7 @@ jobs:
 
       # Install Artillery
       - name: Install Artillery
-        run: npm install -g artillery
+        run: npm install -g artillery artillery-plugin-custom
 
       # Kör backend-servern
       - name: Start backend server
