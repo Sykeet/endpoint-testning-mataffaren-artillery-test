@@ -1,5 +1,5 @@
 config:
-  target: "http://127.0.0.1:4001"
+  target: http://127.0.0.1:4001
   phases:
     - duration: 10
       arrivalRate: 1
@@ -13,11 +13,18 @@ config:
       arrivalRate: 10
       rampTo: 20
       name: Spike phase
-  plugins:
-    custom:
-      path: "./e2e/playwright-runner.cjs"
+
+    plugins:
+    ensure: {}
+    apdex: {}
+    metrics-by-endpoint: {}
+  apdex:
+    threshold: 100
+  engines:
+    playwright: {}
+  processor: '../e2e/playwright-runner.cjs'
 
 scenarios:
   - name: Playwright Scenario
     flow:
-      - function: "runPlaywrightTest"
+      - function: "runPlaywrightTest" # This is the function in your playwright-runner.cjs
