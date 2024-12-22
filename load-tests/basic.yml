@@ -14,7 +14,7 @@ config:
       rampTo: 20
       name: Spike phase
 
-    plugins:
+  plugins:
     ensure: {}
     apdex: {}
     metrics-by-endpoint: {}
@@ -27,4 +27,4 @@ config:
 scenarios:
   - name: Playwright Scenario
     flow:
-      - function: "runPlaywrightTest" # This is the function in your playwright-runner.cjs
+      - function: "runPlaywrightTest"
