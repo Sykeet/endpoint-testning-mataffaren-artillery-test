@@ -43,5 +43,5 @@ jobs:
         run: sleep 10
 
       # Kör `playwright-runner.js`
-      - name: Run Playwright Runner
-        run: node e2e/playwright-runner.cjs
+      - name: Run Playwright test with Artillery
+        run: artillery run load-tests/basic.yml
