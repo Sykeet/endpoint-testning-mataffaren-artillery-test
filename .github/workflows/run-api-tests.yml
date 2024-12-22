@@ -11,29 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Steg 1: Checka ut koden från GitHub
+      # Checka ut koden från GitHub
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Steg 2: Installera Node.js
+      # Installera Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 20.x
           cache: 'npm'
 
-      # Steg 3: Installera projektberoenden
+      # Installera projektberoenden
       - name: Install dependencies
         run: npm ci
 
-      # Steg 4: Kör backend-servern
+      # Run Build
+      - name: Build
+        run: npm run build
+
+      # Install Artillery
+      - name: Install Artillery
+        run: npm install -g artillery
+
+      # Kör backend-servern
       - name: Start backend server
         run: nohup npm run backend &
 
-      # Steg 5: Vänta på att backend startar
+      # Vänta på att backend startar
       - name: Wait for backend to start
         run: sleep 10
 
-      # Steg 6: Kör `playwright-runner.js`
+      # Kör `playwright-runner.js`
       - name: Run Playwright test with Artillery
         run: artillery run load-tests/basic.yml
