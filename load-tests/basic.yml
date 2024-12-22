@@ -15,7 +15,7 @@ config:
       name: Spike phase
   plugins:
     custom:
-      path: "./e2e/playwright-runner.js"
+      path: "./e2e/playwright-runner.cjs"
 
 scenarios:
   - name: Playwright Scenario

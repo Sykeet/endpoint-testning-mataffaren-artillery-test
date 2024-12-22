@@ -36,4 +36,4 @@ jobs:
 
       # Steg 6: Kör `playwright-runner.js`
       - name: Run Playwright Runner
-        run: node e2e/playwright-runner.js
+        run: node e2e/playwright-runner.cjs
