@@ -56,11 +56,11 @@ jobs:
 
       # Steg 10: Kör Artillery-tester
       - name: Run Artillery load test
-        run: artillery run e2e/test-1.spec.ts
+        run: artillery run e2e/test-1.spec.cjs
 
       # Steg 11: Spara Artillery-rapporten
       - name: Save load test report
-        run: artillery run --output report.json e2e/test-1.spec.ts
+        run: artillery run --output report.json e2e/test-1.spec.cjs
 
       # Steg 12: Ladda upp Artillery-rapporten
       - name: Upload load test report
