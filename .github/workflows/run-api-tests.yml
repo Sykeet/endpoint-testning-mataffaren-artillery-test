@@ -15,33 +15,54 @@ jobs:
         node-version: [20.x]
 
     steps:
+      # Steg 1: Checka ut koden
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Steg 2: Installera Node.js och cache npm-moduler
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      # Steg 3: Installera projektberoenden
       - name: Install dependencies
         run: npm ci
 
+      # Steg 4: Bygg projektet
       - name: Run Build
         run: npm run build
 
+      # Steg 5: Installera Artillery
       - name: Install Artillery
         run: npm install -g artillery
 
+      # Steg 6: Starta backend-server
       - name: Start backend server
         run: nohup npm run backend &
 
-      - name: Run Playwright test with Artillery
-        run: artillery run e2e/test-1.spec.ts
+      # Steg 7: Vänta på att backend startar
+      - name: Wait for backend to start
+        run: sleep 10
 
+      # Steg 8: Kontrollera att backend körs
+      - name: Check backend status
+        run: curl -I http://localhost:4001
+
+      # Steg 9: Kör Playwright-tester
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      # Steg 10: Kör Artillery-tester
+      - name: Run Artillery load test
+        run: artillery run load-tests/basic.yml
+
+      # Steg 11: Spara Artillery-rapporten
       - name: Save load test report
         run: artillery run --output report.json load-tests/basic.yml
 
+      # Steg 12: Ladda upp Artillery-rapporten
       - name: Upload load test report
         uses: actions/upload-artifact@v3
         with:
